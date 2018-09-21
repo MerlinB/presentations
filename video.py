@@ -13,7 +13,8 @@ while not os.path.exists(path):
 cut = 0
 presentation_path = None
 presentation = input("Präsentation vorhanden? [Y]") or 'Y'
-if presentation in ['Y', 'y', 'Yes', 'yes']:
+presentation = True if presentation in ['Y', 'y', 'Yes', 'yes'] else False
+if presentation:
     presentation_path = input("Pfad zu Präsentation:")
     while not os.path.exists(presentation_path):
         presentation_path = input(f"Keine Datei bei {path} gefunden. Pfad zu Präsentation:")
@@ -21,7 +22,7 @@ if presentation in ['Y', 'y', 'Yes', 'yes']:
     cut = int(input("Sekunden vom Anfang der Präsentation zu schneiden: [0]") or 0)
 
 with tempfile.TemporaryDirectory() as tmp_dir:
-    intro_path = f'{tmp_dir.name}/Intro_{slugify(title)}.mp4'
+    intro_path = f'{tmp_dir}/Intro_{slugify(title)}.mp4'
 
     subprocess.run([
         'ffmpeg', '-y', '-loop', '1',
